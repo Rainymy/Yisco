@@ -1,0 +1,299 @@
+:root {
+  --status-height: 200px;
+  --preview-height: 250px;
+  --logo-picture-height: 200px;
+  --list-hover-color: skyblue;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: deepskyblue;
+  border-radius: 6px;
+  border: 3px solid teal;
+}
+body {
+  background-color: teal;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  min-width: 670px;
+}
+.container {
+  display: flex;
+  margin: auto 0;
+  height: 100%;
+  width: 100%;
+  max-width: 750px;
+  box-shadow: 0px 0px 25px -5px;
+}
+.wrapper {
+  width: 100%;
+  padding: 0.25em;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.d-none { display: none !important; }
+.btn {
+  margin: 0 auto;
+  width: 105px;
+  padding: 0.5em;
+  border-style: solid;
+  background-color: rgb(135, 206, 235);
+  border-radius: 5px;
+  outline: none;
+  border-color: #e3e3e3;
+  cursor :pointer;
+}
+.btn:focus { border-color: #ffbdff; }
+.form-control {
+  width: 74%;
+  padding: 0.5em;
+  border-radius: 5px;
+  border-style: solid;
+  outline: none;
+  transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+}
+.form-control:focus {
+  border-color: #ffbdff;
+  box-shadow: 0 0 0 .2em #007bff40;
+}
+/* -------------------------- Overlay -------------------------------- */
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  transition: transform 0.25s;
+  transform-origin: center; 
+}
+.overlay > video, .overlay > img {
+  // width: 400px;
+  width: auto;
+  height: auto;
+  
+  max-width: 75%;
+  max-height: 75vh;
+  background-color: rgba(150, 150, 150, 0.7);
+}
+.scale-0 { transform: scale(0); }
+.scale-1 { transform: scale(1); }
+
+/* --------------------------- Aside --------------------------------- */
+.aside {
+  flex-grow: 1;
+  padding: 0.5em;
+  width: 250px;
+  background-color: skyblue;
+}
+.inner {
+  width: 100%;
+  height: 100%;
+  padding: 0.5em;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+}
+.logo-container {
+  width: 100%;
+}
+.logo-container > div {
+  min-width: 200px;
+  max-width: 100%;
+  height: var(--logo-picture-height);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-container > div > img {
+  width: auto;
+  height: auto;
+  
+  max-height: 100%;
+  max-width: 100%;
+}
+.aside-content {
+  padding: 0.5em;
+  background-color: cadetblue;
+  height: 100%;
+  max-height: 350px;
+  overflow: auto;
+}
+.aside-content > div {
+  padding: 0.25em;
+  background-color: dimgray;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5em;
+}
+.aside-content > div:first-child { margin-top: 0;}
+.aside-content > div > input {
+  width: 100%;
+  padding: 0.25em;
+  border-radius: 5px;
+  border-style: solid;
+  outline: none;
+  transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+  font-style: italic;
+}
+.aside-content > div > input:focus {
+  border-color: #ffbdff;
+  box-shadow: 0 0 0 0.2em #007bff40;
+}
+.aside-content > div > span {
+  margin: 0 0 3px 9px;
+  font-size: calc(1em + 3px);
+}
+.overflower {
+  height: 100%;
+  max-height: 550px;
+  // background-color: cadetblue;
+  overflow: auto;
+}
+.overflower > aside {
+  width: 100%;
+  background-color: inherit;
+  display: flex;
+  flex-flow: row wrap;
+}
+.overflower > aside > .btn {
+  margin: 0.25em;
+  flex-grow: 1;
+  border-radius: 0;
+  margin: 0;
+}
+.overflower > div {
+  padding: 0.25em;
+  margin: 0.5em 0; 
+  display: flex;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: powderblue;
+  box-shadow: 0px 2px 8px -3px teal;
+}
+.overflower > div:hover {
+  background-color: var(--list-hover-color);
+  box-shadow: 0px 0px 7px cornflowerblue;
+  cursor: pointer;
+}
+.overflower > div > video, .overflower > div > img {
+  pointer-events: none;
+  margin-right: 0.4em;
+  width: auto;
+  height: auto;
+  
+  max-width: 100px;
+  max-height: 100px;
+}
+.overflower > div > span {
+  overflow: auto;
+  line-break: normal;
+  height: auto;
+  max-height: 100%;
+  z-index: auto;
+}
+/* --------------------------- Main ------------------------------- */
+.main {
+  flex-grow: 4;
+  padding: 0.5em;
+  background-color: powderblue;
+  transition: all 1s ease;
+}
+.main-inner {
+  min-width: 400px;
+  padding: 0.5em;
+  height: 100%;
+  background-color: wheat;
+  
+  display: flex;
+  flex-direction: column;
+}
+.main-inner > div {
+  background-color: skyblue;
+  padding: 0.75em;
+  display: flex;
+}
+.main-top {
+  color: inherit;
+}
+.main-body {
+  height: 100%;
+  margin: 0.25em 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.main-body-inner {
+  background-color: white;
+  padding: inherit;
+}
+.preview {
+  width: 100%;
+  height: var(--preview-height);
+  background-color: cadetblue;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.preview > video {
+  width: 100%;
+  height: auto;
+  
+  max-width: 100%;
+  max-height: 300px;
+}
+.status {
+  height: var(--status-height);
+  width: 100%;
+  border-radius: 5px;
+  padding: 0.5em;
+  background-color: rgba(100,122,150, 0.5);
+  box-shadow: 0px 0px 12px 0px cornsilk;
+  
+  overflow: auto;
+}
+.status > div {
+  background-color: blanchedalmond;
+  padding: 0.25em 0.5em;
+  margin-top: 0.5em;
+  width: 100%;
+  box-shadow: 0px 0px 8px -5px;
+  overflow-wrap: break-word;
+  border-radius: 5px;
+}
+.status > div:first-child { margin: 0; }
+.status > p { width: 100%; height: 0.5rem;}
+
+.status > div > progress {
+  width: 100%;
+}
+.status > div > div {
+  display: block;
+  margin: auto;
+  width: 42ch;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
+div.success { background: linear-gradient(to right, powderblue 90%, #00FF00); }
+div.failed { background: linear-gradient(to right, powderblue 90%, #FF6347); }

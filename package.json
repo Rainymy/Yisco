@@ -1,0 +1,33 @@
+{
+  "name": "Heart",
+  "productName": "Yisco",
+  "version": "0.0.5",
+  "description": "About downloading Videos",
+  "main": "index.js",
+  "scripts": {
+    "live": "electron .",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "Qubiet",
+  "license": "MIT",
+  "build": {
+    "appId": "heart.id",
+    "win": {
+      "target": "nsis",
+      "icon": "icon/icon.ico"
+    }
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "hidefile": "^3.0.0",
+    "npm": "^6.14.7",
+    "request": "^2.88.2",
+    "ytdl-core": "^2.1.7"
+  },
+  "devDependencies": {
+    "electron": "9.0.4",
+    "electron-builder": "^22.7.0"
+  }
+}
