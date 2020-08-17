@@ -7,6 +7,11 @@
     <title>Download</title>
   </head>
   <body>
+    <div class="navbar">
+      <button class="navbar-button">Minimize</button>
+      <button class="navbar-button">Fullscreen</button>
+      <button class="navbar-button">Exit</button>
+    </div>
     <div class="container">
       <div class="wrapper">
         <div class="aside">
@@ -52,8 +57,17 @@
                   })();
                 </script>
               </div>
-              <div class="">
+              <div class="p-0">
                 <button class="btn" onclick="switchAside()">Folder</button>
+              </div>
+              <div class="p-0">
+                <button class="btn">Void</button>
+              </div>
+              <div class="p-0">
+                <button class="btn">Void</button>
+              </div>
+              <div class="p-0">
+                <button class="btn">Void</button>
               </div>
             </div>
           </div>
@@ -66,7 +80,10 @@
                 <button class="btn" onclick="openSaveDirectory()">Folder</button>
                 <script type="text/javascript">
                   function openSaveDirectory() {
-                    require('child_process').exec(`start ${directory.save_path()}`);
+                    try {
+                      require('child_process').exec(`start ${directory.save_path()}`);
+                    } 
+                    catch (e) { console.log(e); return e; }
                   }
                   function aaabbbccc(force=false) {
                     let elem = document.querySelector('[class="main"]');
@@ -92,26 +109,25 @@
                   }
                 </script>
               </aside>
-              <div data-name="list" style="display:none;">
-                <span></span>
-              </div>
+              <!-- file list appended here! -->
             </div>
           </div>
           <script defer type="text/javascript">
             function fromListToHTMLList(item) {
               try {
-                let inner = document.querySelectorAll('.inner')[1];
-                let div = inner.querySelector('[data-name="list"]');
-                let copy = div.cloneNode(true);
-                copy.style.display = "";
-                let text = copy.getElementsByTagName('span')[0];
+                let child = document.querySelectorAll('.inner')[1].children[0];
+                let div = document.createElement("div");
+                
+                let text = document.createElement("span");
                 text.textContent = item.name.split("_").join(" ");
+                
+                div.appendChild(text);
+                child.appendChild(div);
                 
                 let video = document.createElement("video");
                 video.preload = "auto";
                 video.addEventListener("error", (event) => {
-                  console.log("Error " + video.error.code);
-                  console.log("Details: " + video.error.message);
+                  console.log("Error " + video.error.code, "Details: " + video.error.message);
                   if (video.error.code === 4) {
                     let imgTag = document.createElement("img");
                     let elem = event.target;
@@ -122,15 +138,17 @@
                 }, true)
                 
                 video.src = item.path;
-                copy.insertBefore(video, copy.children[0]);
-                copy.addEventListener("click", overlay);
-                div.parentNode.appendChild(copy);
+                div.insertBefore(video, div.children[0]);
+                div.addEventListener("click", overlay);
+                div.parentNode.appendChild(div);
               } 
-              catch (e) { console.log(e); }
+              catch (e) {
+                console.error(e);
+              }
             }
             function fileList(obj={}) { for (let item of obj) fromListToHTMLList(item); }
             function downloadFinished() {
-              let list = document.querySelectorAll('[data-name="list"]');
+              let list = document.querySelector('.overflower').querySelectorAll('div');
               for (let i = list.length; i > 1; i--) {
                 list[0].parentNode.removeChild(list[i - 1]);
               }

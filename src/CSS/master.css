@@ -30,13 +30,14 @@ body {
 		background-color: teal;
 		min-height: 100vh;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		min-width: 670px;
 }
 
 .container {
 		display: flex;
-		margin: auto 0;
+		margin: auto;
 		height: 100%;
 		width: 100%;
 		max-width: 750px;
@@ -49,6 +50,27 @@ body {
 		display: flex;
 		flex-flow: row wrap;
 		justify-content: center;
+}
+
+/* -------------------------- Components -------------------------- */
+.w-100 {
+		width: 100% !important;
+}
+
+.w-75 {
+		width: 75% !important;
+}
+
+.w-50 {
+		width: 50% !important;
+}
+
+.w-25 {
+		width: 25% !important;
+}
+
+.p-0 {
+		padding: 0 !important;
 }
 
 .d-none {
@@ -85,6 +107,14 @@ body {
 		box-shadow: 0 0 0 .2em #007bff40;
 }
 
+.scale-0 {
+		transform: scale(0);
+}
+
+.scale-1 {
+		transform: scale(1);
+}
+
 /* -------------------------- Overlay -------------------------------- */
 .overlay {
 		display: flex;
@@ -106,12 +136,15 @@ body {
 		background-color: rgba(150, 150, 150, 0.7);
 }
 
-.scale-0 {
-		transform: scale(0);
+/* -------------------------- Navbar -------------------------------- */
+.navbar {
+		display: flex;
+		justify-content: flex-end;
+		position: sticky;
 }
 
-.scale-1 {
-		transform: scale(1);
+.navbar-button {
+		color: skyblue;
 }
 
 /* --------------------------- Aside --------------------------------- */
@@ -161,7 +194,7 @@ body {
 
 .aside-content > div {
 		padding: 0.25em;
-		background-color: dimgray;
+		background-color: skyblue;
 		display: flex;
 		flex-direction: column;
 		margin-top: 0.5em;
@@ -169,6 +202,12 @@ body {
 
 .aside-content > div:first-child {
 		margin-top: 0;
+		border: 2px solid #e3e3e3;
+}
+
+.aside-content > div > button {
+		width: 100%;
+		border-radius: 0;
 }
 
 .aside-content > div > input {
@@ -188,7 +227,7 @@ body {
 
 .aside-content > div > span {
 		margin: 0 0 3px 9px;
-		font-size: calc(1em + 3px);
+		font-size: calc(1rem + 3px);
 }
 
 .overflower {

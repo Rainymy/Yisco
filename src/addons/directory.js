@@ -4,7 +4,7 @@ module.exports = function directories() {
   let config;
   const reader = (location) => {
     let filePath = path.resolve(__dirname, location);
-    try { return JSON.parse(fs.readFileSync(filePath())); } 
+    try { return JSON.parse(fs.readFileSync(filePath)); } 
     catch (e) {
       new Promise(async (resolve, reject) => {
         await fs.mkdir(path.resolve(filePath, "../"), { recursive: false }, (err) => {
@@ -34,8 +34,8 @@ module.exports = function directories() {
   this.save_path = (a = "") => {
     let config = reader(this.default(".config/config.json"));
     try {
-      if (!config.user['save-path']) { return this.default(a); }
-      return path.resolve(config.user['save-path'], a);
+      if (!config.user.save_path) { return this.default(a); }
+      return path.resolve(config.user.save_path, a);
     } 
     catch (e) { return this.default(a); }
   }

@@ -9,10 +9,10 @@ function changeDefaultTo(location, value, elem=null) {
     let readStream = fs.createReadStream(absolutePath);
     readStream.on("data", (chunk) => jsonValue = JSON.parse(chunk));
     readStream.on("end", () => {
-      jsonValue.user["save-path"] = value;
+      jsonValue.user.save_path = value;
       let writeStream = fs.createWriteStream(absolutePath, { flag: "w" });
       writeStream.on("ready", () => {
-        jsonValue.user["save-path"] = jsonValue.user["save-path"].split("\\").join("/");
+        jsonValue.user.save_path = jsonValue.user.save_path.split("\\").join("/");
         writeStream.write(JSON.stringify(jsonValue));
         writeStream.end();
         if (elem) {

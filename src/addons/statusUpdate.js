@@ -1,8 +1,8 @@
-module.exports = function statusUpdate(values) {
+module.exports = function statusUpdate(prop) {
   let returnId;
-  values = Object.assign({}, {
+  let values = Object.assign({}, {
     text:"", status: "", id: "", format: false, progress: null
-  }, values);
+  }, prop);
   let elem = document.querySelector('[class="status"]');
   let div;
   if (typeof values.id === "string" && elem.querySelector(`[id="${values.id}"]`)) {

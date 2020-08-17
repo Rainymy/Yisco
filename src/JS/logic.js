@@ -202,7 +202,8 @@ function download() {
                                     <i><b>${temp.video_name}</i></b>`,
                                     format: true,
                                     progress: 100,
-                                    id: statusId
+                                    id: statusId,
+                                    status: true
                                   });
                                   try { downloadFinished(); } 
                                   catch (e) { console.log(e); }
