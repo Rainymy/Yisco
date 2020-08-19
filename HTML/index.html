@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta content="*">  -->
+    <link rel="stylesheet" href="../CSS/master.css">
+    <title>Download</title>
+  </head>
+  <body>
+    <!-- <div class="navbar">
+      <button class="navbar-button">Minimize</button>
+      <button class="navbar-button">Fullscreen</button>
+      <button class="navbar-button">Exit</button>
+    </div> -->
+    <div class="container">
+      <div class="wrapper">
+        <div class="aside">
+          <div class="inner">
+            <div class="logo-container">
+              <div class="logo-size">
+                <!-- <img src="https://i.imgur.com/E2qvtPE.jpg" alt=""> -->
+                <img src="https://i.imgur.com/jlk51yd.png" alt="">
+              </div>
+            </div>
+            <div class="aside-content">
+              <div class="">
+                <span>Save Location</span>
+                <input type="text" placeholder="empty">
+                <script defer type="text/javascript">
+                  const changeDefaultTo = require('../addons/changePath.js');
+                  (() => {
+                    const directory = new (require('../addons/directory.js'))();
+                    let tag = document.currentScript;
+                    let span = tag.parentNode.querySelector('input[type="text"]');
+                    span.placeholder = directory.save_path();
+                    span.title = span.placeholder;
+                    span.value = "";
+                    span.addEventListener("click", (event) => {
+                      const { dialog } = require('electron').remote;
+                      dialog.showOpenDialog({ properties: ["openDirectory"] })
+                        .then((result) => {
+                          if (result.canceled) { return "Canceled"; }
+                          changeDefaultTo(directory.default(".config/config.json"), result.filePaths[0], span);
+                        })
+                        .catch((err) => console.error(err));
+                      // console.log("click");
+                    }, false);
+                    span.addEventListener("change", (event) => {
+                      if (event.target.value === "default") {
+                        changeDefaultTo(directory.default(".config/config.json"), directory.default());
+                        event.target.placeholder = "default: " + directory.default();
+                        return event.target.value = "";
+                      }
+                      event.target.value = "";
+                    });
+                    tag.parentNode.removeChild(tag);
+                  })();
+                </script>
+              </div>
+              <div class="p-0">
+                <button class="btn" onclick="switchAside()">Folder</button>
+              </div>
+              <!-- <div class="p-0">
+                <button class="btn">Void</button>
+              </div>
+              <div class="p-0">
+                <button class="btn">Void</button>
+              </div>
+              <div class="p-0">
+                <button class="btn">Void</button>
+              </div> -->
+            </div>
+          </div>
+          <div class="inner d-none">
+            <div class="overflower">
+              <aside class="" style="position:sticky; top: 0;">
+                <button class="btn" onclick="switchAside();">Back</button>
+                <button class="btn" onclick="downloadFinished()">Refresh</button>
+                <button class="btn" onclick="aaabbbccc()">Expand/Collapse</button>
+                <button class="btn" onclick="openSaveDirectory()">Folder</button>
+                <script type="text/javascript">
+                  function openSaveDirectory() {
+                    try {
+                      require('child_process').exec(`start ${directory.save_path()}`);
+                    }
+                    catch (e) { console.log(e); return e; }
+                  }
+                  function aaabbbccc(force=false) {
+                    let elem = document.querySelector('[class="main"]');
+                    if (elem.getAttribute("data-flex") === null) {
+                      let once = window.getComputedStyle(elem).getPropertyValue("flex-grow");
+                      elem.setAttribute("data-flex", once);
+                      return elem.style.flexGrow = 0;
+                    }
+                    if (elem.style.flexGrow < 1 || force) {
+                      elem.style.flexGrow = elem.getAttribute("data-flex");
+                    }
+                    else {
+                      elem.style.flexGrow = 0;
+                    }
+                  }
+                  function switchAside() {
+                    let inner = document.querySelectorAll('.inner');
+                    let first = inner[0].classList;
+                    let second = inner[1].classList;
+                    first.toggle("d-none");
+                    second.toggle("d-none");
+                    aaabbbccc(first.value.includes("d-none") ? false: true);
+                  }
+                </script>
+              </aside>
+              <!-- file list appended here! -->
+            </div>
+          </div>
+          <script defer type="text/javascript">
+            function fromListToHTMLList(item) {
+              try {
+                let child = document.querySelectorAll('.inner')[1].children[0];
+                let div = document.createElement("div");
+
+                let text = document.createElement("span");
+                text.textContent = item.name.split("_").join(" ");
+
+                div.appendChild(text);
+                child.appendChild(div);
+
+                let video = document.createElement("video");
+                video.preload = "auto";
+                video.addEventListener("error", (event) => {
+                  console.log("Error " + video.error.code, "Details: " + video.error.message);
+                  if (video.error.code === 4) {
+                    let imgTag = document.createElement("img");
+                    let elem = event.target;
+                    imgTag.src = elem.src;
+                    elem.parentNode.insertBefore(imgTag, elem.parentNode.children[0]);
+                    elem.parentNode.removeChild(elem);
+                  }
+                }, true)
+
+                video.src = item.path;
+                div.insertBefore(video, div.children[0]);
+                div.addEventListener("click", overlay);
+                div.parentNode.appendChild(div);
+              }
+              catch (e) {
+                console.error(e);
+              }
+            }
+            function fileList(obj={}) { for (let item of obj) fromListToHTMLList(item); }
+            function downloadFinished() {
+              let list = document.querySelector('.overflower').querySelectorAll('div');
+              for (let i = list.length; i > 1; i--) {
+                list[0].parentNode.removeChild(list[i - 1]);
+              }
+              return new Promise(async (resolve, reject) => {
+                try {
+                  fileList(await getAllFileNamesFromFolder(directory.save_path()));
+                  resolve(true);
+                } catch (e) { reject(e) }
+              });
+            }
+          </script>
+        </div>
+        <div class="main">
+          <div class="main-inner">
+            <div class="main-top">
+              <input class="form-control" id="input" type="text" placeholder="Search">
+              <button class="btn" onclick="download()">Download</button>
+            </input>
+            </div>
+            <div class="main-body">
+              <!-- <div class="main-body-inner">
+                body
+              </div> -->
+              <div class="preview">
+                <iframe id="iframe" src="" width="100%" height="auto"
+                allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+              </div>
+              <!-- Status  -->
+              <div class="status"></div>
+              <!-- Status -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay scale-0">
+      <script type="text/javascript">
+        const overlayObj = { current: { element: "", src: "" } }
+        let overlay_Parent = document.currentScript.parentNode;
+
+        function toggleOverlay(event=null) {
+          if (event && !event.target.classList.value.includes("overlay")) {
+            if (!event.target.classList.value ) { return; }
+            overlay_Parent.classList.toggle("scale-0");
+            overlay_Parent.classList.toggle("scale-1");
+            return;
+          }
+          try {
+            if (overlayObj.current.element.pause) {
+              overlayObj.current.element.pause();
+            }
+          }
+          catch (e) { console.log(e); }
+          overlay_Parent.classList.toggle("scale-0");
+          overlay_Parent.classList.toggle("scale-1");
+        }
+        function overlay(event) {
+          let elem = event.target;
+          if (event.target.tagName === "SPAN") { elem = event.target.parentNode }
+          let copy = elem.children[0].cloneNode(true);
+          if (copy.src === overlayObj.current.src) {
+            toggleOverlay();
+            return;
+          }
+          copy.controls = true;
+          copy.volume = 0.25;
+          overlayObj.current.element = copy;
+          overlayObj.current.src = copy.src;
+          toggleOverlay();
+          if (overlay_Parent.children.length < 2) {
+            overlay_Parent.insertBefore(copy, overlay_Parent.children[0]);
+            return null;
+          }
+          overlay_Parent.replaceChild(copy, overlay_Parent.children[0]);
+        }
+        overlay_Parent.addEventListener("click", toggleOverlay);
+      </script>
+    </div>
+  </body>
+  <script defer src="../JS/logic.js" charset="utf-8"></script>
+
+  <script type="text/javascript">
+    let getAllFileNamesFromFolder;
+    let statusUpdate;
+    let randomId;
+
+    try { getAllFileNamesFromFolder = require('../addons/getAllFileNamesFromFolder.js'); }
+    catch (e) { getAllFileNamesFromFolder = null; console.log(e); }
+
+    try { statusUpdate = require('../addons/statusUpdate.js'); }
+    catch (e) { statusUpdate = () => null; console.log(e); }
+
+    try { randomId = require('../addons/randomId.js'); }
+    catch (e) {
+      randomId = () => {
+        console.info("Temporary function:", "randomId");
+        return `default_${Math.random().toString(36).substring(2)}`
+      };
+      console.log(e);
+    }
+  </script>
+
+  <script defer type="application/javascript">
+    document.body.onload = async () => {
+      try { logicOnload(); }
+      catch (e) { console.log(e); }
+      document.getElementById('input').onchange = (event) => {
+        let value = getExtension(event.target.value);
+        if (!typeof value === "object") { return; }
+        if (value[0] === "youtube") {
+          try {
+            let url = value[1].match(/[a-zA-Z|0-9|\-|_]{11}/g);
+            if (!url) { throw "Invalid video Id" }
+            let iframeElement = document.getElementById('iframe');
+            iframeElement.src = "https:\/\/youtube.com/embed/" + url;
+          } catch (e) {
+            console.log(e);
+            statusUpdate({"text": e, "status": false});
+          }
+        }
+      }
+      document.body.addEventListener("keydown", (event) => {
+        if (event.ctrlKey === true && event.key.toLowerCase() === "i") {
+          window.close();
+        }
+      });
+      fileList(await getAllFileNamesFromFolder(directory.save_path()));
+    }
+  </script>
+</html>
