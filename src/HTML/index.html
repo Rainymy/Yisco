@@ -7,11 +7,11 @@
     <title>Download</title>
   </head>
   <body>
-    <div class="navbar">
+    <!-- <div class="navbar">
       <button class="navbar-button">Minimize</button>
       <button class="navbar-button">Fullscreen</button>
       <button class="navbar-button">Exit</button>
-    </div>
+    </div> -->
     <div class="container">
       <div class="wrapper">
         <div class="aside">
@@ -58,9 +58,9 @@
                 </script>
               </div>
               <div class="p-0">
-                <button class="btn" onclick="switchAside()">Folder</button>
+                <button class="btn" onclick="switchAside()">Download</button>
               </div>
-              <div class="p-0">
+              <!-- <div class="p-0">
                 <button class="btn">Void</button>
               </div>
               <div class="p-0">
@@ -68,7 +68,7 @@
               </div>
               <div class="p-0">
                 <button class="btn">Void</button>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="inner d-none">
@@ -197,9 +197,7 @@
             return;
           }
           try {
-            if (overlayObj.current.element.pause) {
-              overlayObj.current.element.pause(); 
-            }
+            if (overlayObj.current.element.pause) overlayObj.current.element.pause(); 
           } 
           catch (e) { console.log(e); }
           overlay_Parent.classList.toggle("scale-0");

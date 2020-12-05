@@ -11,9 +11,7 @@ let config;
 try {
   // let readSream = fs.createReadStream(path.resolve(__dirname, '../config/config.json'));
   let readSream = fs.createReadStream(directory.default(".config/config.json"));
-  readSream.on("data", (chunk) => {
-    config = JSON.parse(chunk);
-  });
+  readSream.on("data", (chunk) => { config = JSON.parse(chunk); });
 } 
 catch (e) { config = null; console.log(e); }
 
@@ -26,33 +24,23 @@ function getExtension(url) {
   
   if (regex.test(url)) { return ['youtube', url.match(regex)[0]]; }
   let index = url.lastIndexOf("/");
-  if (index !== -1) {
-      url = url.substring(index + 1); 
-      // Keep path without its segments
-  }
+  
+  if (index !== -1) { url = url.substring(index + 1); }
   index = url.indexOf("?");
-  if (index !== -1) {
-      url = url.substring(0, index); 
-      // Remove query
-  }
+  
+  if (index !== -1) { url = url.substring(0, index); }
   index = url.indexOf("#");
-  if (index !== -1) {
-      url = url.substring(0, index); 
-      // Remove fragment
-  }
+  
+  if (index !== -1) { url = url.substring(0, index); }
   index = url.lastIndexOf(".");
-  return index !== -1
-      ? url.substring(index + 1) // Only keep file extension
-      : ""; // No extension found
+  return index !== -1 ? url.substring(index + 1) : "";
 }
 
 function download() {
   let src = decodeURIComponent(document.getElementsByTagName('input').input.value);
   let isExtension = (() => {
     let ex = getExtension(src);
-    if (typeof ex === 'object') {
-      if (ex[0] === 'youtube') { return 'youtube'; }
-    }
+    if (typeof ex === 'object') if (ex[0] === 'youtube') { return 'youtube'; }
     return +getExtension(src).length >= 1;
   })();
   console.log(isExtension);
@@ -128,14 +116,12 @@ function download() {
             .on('finish', () => {
           format = ytdl.chooseFormat(ir.formats, { quality: 'highestaudio' });
           console.log(format);
-          let temp_1 = {
-            name : hash(), 
-            ext: format.container
-          }
+          let temp_1 = { name : hash(), ext: format.container }
+          
           request(format.url)
             .pipe(fs.createWriteStream(directory.write(temp_1.name +'.'+ temp_1.ext)))
             .on('finish', () => {
-              let first,second,temp_2;
+              let first, second, temp_2;
               
               fs.readdir(directory.write(), (err, files) => {
                 if (err) { return console.error(err); }
