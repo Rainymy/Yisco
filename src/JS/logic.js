@@ -1,6 +1,7 @@
 "use strict";
 const path = require('path');
 const fs = require('fs');
+const ytdlr = require('ytdlr');
 const electron = require('electron').remote;
 const request = require('request').defaults({ encoding: null });
 const ffmpeg = require('fluent-ffmpeg');
@@ -9,7 +10,6 @@ const directory = new directories();
 
 let config;
 try {
-  // let readSream = fs.createReadStream(path.resolve(__dirname, '../config/config.json'));
   let readSream = fs.createReadStream(directory.default(".config/config.json"));
   readSream.on("data", (chunk) => { config = JSON.parse(chunk); });
 } 

@@ -24,7 +24,8 @@
     "fluent-ffmpeg": "^2.1.2",
     "hidefile": "^3.0.0",
     "request": "^2.88.2",
-    "ytdl-core": "^2.1.7"
+    "ytdl-core": "^2.1.7",
+    "ytdlr": "^2.1.2"
   },
   "devDependencies": {
     "electron": "^9.3.3",
