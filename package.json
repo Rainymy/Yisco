@@ -28,7 +28,7 @@
     "ytdlr": "^2.1.2"
   },
   "devDependencies": {
-    "electron": "^9.3.3",
+    "electron": "^11.5.0",
     "electron-builder": "^22.9.1"
   }
 }
